@@ -2,6 +2,7 @@ import LoadMore from "@/components/LoadMore";
 import { fetchAllProjects } from "@/lib/actions";
 import { ProjectInterface } from "@/common.types";
 import ProjectCard from "@/components/ProjectCard";
+import Categories from "@/components/Categories";
 
 type ProjectSearch = {
   projectSearch: {
@@ -38,7 +39,7 @@ export default async function Home({
   if (projectsToDisplay.length === 0) {
     return (
       <section className="flexStart felx-col paddings">
-        Categories
+        <Categories />
         <p className="no-result-text text-center">No project found</p>
       </section>
     );
@@ -48,7 +49,7 @@ export default async function Home({
 
   return (
     <section className="flex-start flex-col paddings mb-16">
-      <h1>Categories</h1>
+      <Categories />
 
       <section className="projects-grid">
         {projectsToDisplay.map(({ node }: { node: ProjectInterface }) => (
@@ -64,7 +65,12 @@ export default async function Home({
         ))}
       </section>
 
-      <h1>LoadMore</h1>
+      <LoadMore
+        startCursor={data?.projectSearch?.pageInfo?.startCursor}
+        endCursor={data?.projectSearch?.pageInfo?.endCursor}
+        hasPreviousPage={data?.projectSearch?.pageInfo?.hasPreviousPage}
+        hasNextPage={data?.projectSearch?.pageInfo.hasNextPage}
+      />
     </section>
   );
 }

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/session";
 import { getProjectDetails } from "@/lib/actions";
 import Modal from "@/components/Modal";
+import ProjectActions from "@/components/ProjectActions";
+import RelatedProjects from "@/components/RelatedProjects";
 import { ProjectInterface } from "@/common.types";
 
 export default async function Project({
@@ -55,7 +57,9 @@ export default async function Project({
         </div>
 
         {session?.user?.email === projectDetails?.createdBy?.email && (
-          <div className="flex justify-end items-center gap-2"></div>
+          <div className="flex justify-end items-center gap-2">
+            <ProjectActions projectId={projectDetails?.id} />
+          </div>
         )}
       </section>
 
@@ -108,6 +112,10 @@ export default async function Project({
         </Link>
         <span className="w-full h-0.5 bg-light-white-200" />
       </section>
+      <RelatedProjects
+        userId={projectDetails?.createdBy?.id}
+        projectId={projectDetails?.id}
+      />
     </Modal>
   );
 }
